@@ -24,7 +24,7 @@
 (defn- remove-amp [arg-list]
   (remove #{'&} arg-list))
 
-(defn- preproc-decl [fdecl]
+(defn- preproc-decl [fname fdecl]
   ; mostly stolen from clojure.core/defn
   (let [; get docstring
         m (if (string? (first fdecl))
@@ -56,6 +56,8 @@
                     (let [var-args (is-varargs args)]
                       {:var-args var-args
                        :args (if var-args (remove-amp args) args)
+                       :oname (gensym)
+                       :tname (gensym fname)
                        :body body}))]
     [m ann-fdecl]))
 
@@ -71,18 +73,15 @@
   trace and show how much time was spent inside/outside the inner
   function."
   [fname & fdecl]
-  (let [[m ann-fdecl] (preproc-decl fdecl)
-        num-cases (count ann-fdecl)
-        tnames (repeatedly num-cases #(gensym fname))
-        onames (repeatedly num-cases gensym)]
+  (let [[m ann-fdecl] (preproc-decl fname fdecl)]
     `(do
-       ~@(for [[{:keys [args body]} tname] (map vector ann-fdecl tnames)]
+       ~@(for [{:keys [args body tname]}  ann-fdecl]
            (make-traced tname fname args body))
-       (let [~@(apply concat (for [[tname oname] (map vector tnames onames)]
+       (let [~@(apply concat (for [{:keys [tname oname]} ann-fdecl]
                                `(~oname (new ~tname))))]
          (defn
            ~fname ~m
-           ~@(for [[{:keys [var-args args]} oname] (map vector ann-fdecl onames)]
+           ~@(for [{:keys [var-args args oname]} ann-fdecl]
                (let [dumb-args (for [_ args] (gensym))]
                  `([~@(if var-args (insert-amp dumb-args) dumb-args)]
                    (.invoke ~oname ~@dumb-args)))))))))
