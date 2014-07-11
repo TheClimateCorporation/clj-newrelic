@@ -4,7 +4,7 @@
   {'com.newrelic.api.agent.Trace {:metricName (str *ns* \. fname)}})
 
 (defn- make-traced [tname fname arg-list body]
-  (let [i-args (repeatedly (count arg-list) gensym)]
+  (let [i-args (for [_ arg-list] (gensym))]
     `(do
        (definterface iname# (~'invoke [~@i-args]))
        (deftype ~tname []
@@ -16,17 +16,13 @@
 (defn- is-varargs
   "checks whether an args list uses varargs"
   [arg-list]
-  (let [l (count arg-list)]
-    (when (> l 1)
-      (let [sym (nth arg-list (- l 2))]
-        (when (instance? clojure.lang.Named sym)
-          (= (name sym) "&"))))))
+  (some #{'&} arg-list))
 
 (defn- insert-amp [arg-list]
   (concat (drop-last arg-list) ['& (last arg-list)]))
 
 (defn- remove-amp [arg-list]
-  (concat (drop-last 2 arg-list) [(last arg-list)]))
+  (remove #{'&} arg-list))
 
 (defn- preproc-decl [fdecl]
   ; mostly stolen from clojure.core/defn
@@ -87,7 +83,7 @@
          (defn
            ~fname ~m
            ~@(for [[{:keys [var-args args]} oname] (map vector ann-fdecl onames)]
-               (let [dumb-args (repeatedly (count args) gensym)]
+               (let [dumb-args (for [_ args] (gensym))]
                  `([~@(if var-args (insert-amp dumb-args) dumb-args)]
                    (.invoke ~oname ~@dumb-args)))))))))
 
