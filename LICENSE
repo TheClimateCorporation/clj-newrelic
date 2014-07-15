@@ -2,7 +2,7 @@ The majority of the clj-Newrelic software is licensed with Apache 2.0, which is
 the preferred license and cited below.   Exceptions are handled on a
 case-by-case basis. Specifically, the excerpted Clojure source code in 
 test/clojure/test_helper.clj is licensed under the Eclipse Public License 1.0,
-found at http://clojure.org/license.;
+found at http://clojure.org/license.
 
 
                                  Apache License
