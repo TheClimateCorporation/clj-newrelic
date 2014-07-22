@@ -5,4 +5,4 @@
             :distribution :repo}
   :url "http://www.github.com/TheClimateCorporation/clj-newrelic"
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [com.newrelic.agent.java/newrelic-api "3.8.0"]])
+                 [com.newrelic.agent.java/newrelic-api "3.8.1"]])
