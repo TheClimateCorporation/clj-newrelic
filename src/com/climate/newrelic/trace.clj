@@ -85,4 +85,3 @@
                (let [dumb-args (for [_ args] (gensym))]
                  `([~@(if var-args (insert-amp dumb-args) dumb-args)]
                    (.invoke ~oname ~@dumb-args)))))))))
-
