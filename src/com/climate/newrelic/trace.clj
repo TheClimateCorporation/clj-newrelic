@@ -75,6 +75,7 @@
   [fname & fdecl]
   (let [[m ann-fdecl] (preproc-decl fname fdecl)]
     `(do
+       (def ~fname)
        ~@(for [{:keys [args body tname]}  ann-fdecl]
            (make-traced tname fname args body))
        (let [~@(apply concat (for [{:keys [tname oname]} ann-fdecl]
