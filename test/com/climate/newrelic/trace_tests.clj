@@ -34,3 +34,11 @@
 (deftest test-destructure
   (is (= (destructures [1 2] {:baz 3 :qux 4})
          {:foo 1 :bar 2 :baz 3 :qux 4})))
+
+(nr/defn-traced self-ref
+  ([] (self-ref 5))
+  ([x] x))
+
+(deftest test-self-ref
+  (is (= (self-ref 7) 7))
+  (is (= (self-ref) 5)))
