@@ -11,7 +11,7 @@ New Relic transaction tracing.
 To include in your project, add
 
 ```clojure
-[com.climate/clj-newrelic "0.1.0"]
+[com.climate/clj-newrelic "0.1.1"]
 ```
 
 to your lein dependencies.
