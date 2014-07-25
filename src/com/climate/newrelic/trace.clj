@@ -4,11 +4,12 @@
   {'com.newrelic.api.agent.Trace {:metricName (str *ns* \. fname)}})
 
 (defn- make-traced [tname fname arg-list body]
-  (let [i-args (for [_ arg-list] (gensym))]
+  (let [i-args (for [_ arg-list] (gensym))
+        iname (gensym)]
     `(do
-       (definterface iname# (~'invoke [~@i-args]))
+       (definterface ~iname (~'invoke [~@i-args]))
        (deftype ~tname []
-         iname#
+         ~iname
          (~(with-meta 'invoke (traced-meta fname)) [~'_ ~@i-args]
            (let [~@(interleave arg-list i-args)]
              ~@body))))))
