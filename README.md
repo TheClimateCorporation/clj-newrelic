@@ -11,6 +11,7 @@ New Relic transaction tracing.
 To include in your project, add
 
 [![Clojars Project](http://clojars.org/com.climate/clj-newrelic/latest-version.svg)](http://clojars.org/com.climate/clj-newrelic)
+
 to your lein dependencies.
 
 General strategy adapted from [Sean Corfield](http://corfield.org/blog/post.cfm/instrumenting-clojure-for-new-relic-monitoring).
