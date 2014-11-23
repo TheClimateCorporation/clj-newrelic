@@ -1,7 +1,8 @@
 (ns com.climate.newrelic.trace)
 
 (defn- traced-meta [fname]
-  {'com.newrelic.api.agent.Trace {:metricName (str *ns* \. fname)}})
+  {'com.newrelic.api.agent.Trace {:metricName (str *ns* \. fname)
+                                  :dispatcher true}})
 
 (defn- make-traced [tname fname arg-list body]
   (let [i-args (for [_ arg-list] (gensym))
