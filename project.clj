@@ -1,4 +1,4 @@
-(defproject com.climate/clj-newrelic "0.1.2-SNAPSHOT"
+(defproject com.climate/clj-newrelic "0.2.0"
   :description "Mark functions for newrelic tracing"
   :license {:name "Apache License 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0.html"
