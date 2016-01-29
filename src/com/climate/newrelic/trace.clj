@@ -21,7 +21,7 @@
   (some #{'&} arg-list))
 
 (defn- insert-amp [arg-list]
-  (concat (drop-last arg-list) ['& (last arg-list)]))
+  `[~@(drop-last arg-list) & ~(last arg-list)])
 
 (defn- remove-amp [arg-list]
   (remove #{'&} arg-list))
